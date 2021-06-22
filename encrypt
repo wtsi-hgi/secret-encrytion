@@ -26,7 +26,7 @@ then
 else
 	DEC=$(openssl aes-256-cbc -base64 -d -k $PASSPHRASE -a -salt -in "$1".enc)
 	ORG=$(cat $1)
-	#decrypts the file and checks that the result is the same as the orgional.
+	#decrypts the file and checks that the result is the same as the orgional before it is allowed to delete the orgional.
 	if [ "$DEC" != "$ORG" ]
 	then
 		echo "encryption not the same as decryption."
