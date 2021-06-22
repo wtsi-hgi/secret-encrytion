@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/usr/bin/env bash
 if [ $# -ne 1 ]
 then 
 	echo 'enter the file name to be encripted'
@@ -17,22 +17,12 @@ fi
 echo "Please enter the passphrase"
 read -s PASSPHRASE
 # opensll will ask the user for a password by default but i wanted the the question to be different.
-openssl aes-256-cbc -k $PASSPHRASE -a -salt -in "$1" -out "$1".enc
+openssl aes-256-cbc -base64 -pbkdf2 -in "$1" -out "$1".enc -kfile <(printf "%s" "${PASSPHRASE}")
 if [ $? -ne 0 ]
 then
 	echo "encryption failed."
 	rm "$1".enc
 	exit 4
-else
-	DEC=$(openssl aes-256-cbc -base64 -d -k $PASSPHRASE -a -salt -in "$1".enc)
-	ORG=$(cat $1)
-	#decrypts the file and checks that the result is the same as the original before it is allowed to delete the original.
-	if [ "$DEC" != "$ORG" ]
-	then
-		echo "encryption not the same as decryption."
-		rm "$1".enc
-		exit 5
-	fi
 fi
 
 rm "$1"

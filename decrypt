@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/usr/bin/env bash
 if [ $# -ne 1 ]
 then 
 	echo 'enter the file name to be decrypted'
@@ -9,20 +9,14 @@ then
 	echo "file does not exist"
 	exit 2
 fi
-CONCAT="$1: openssl enc'd data with salted password, base64 encoded"
-if [ "$(file $1)" != "$CONCAT" ]
-then
-	echo "file has not been encrypted"
-	exit 3
-fi
 echo "Please enter the passphrase."
 read -s PASSPHRASE
 # opensll will ask the user for a password by default but i wanted the the question to be different.
-openssl aes-256-cbc -base64 -d -k $PASSPHRASE -a -salt -in "$1" 
+openssl aes-256-cbc -base64 -d -pbkdf2 -in "$1" -kfile <(printf "%s" "${PASSPHRASE}")
 if [ $? -ne 0 ]
 then
 	echo "decyption failed."
-	exit 4
+	exit 3
 fi
 echo
 exit 0
