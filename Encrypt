@@ -1,5 +1,4 @@
 #! /bin/bash
-
 if [ $# -ne 1 ]
 then 
 	echo 'enter the file name to be encripted'
@@ -15,13 +14,13 @@ then
 	echo "file already encrypted"
 	exit 3
 fi
-echo Please enter the passphrase
+echo "Please enter the passphrase"
 read passphrase
 # opensll will ask the user for a password by default but i wanted the the question to be different.
 openssl aes-256-cbc -k passphrase -a -salt -in "$1" -out "$1".enc
 if [ $? -ne 0 ]
 then
-	echo encryption failed.
+	echo "encryption failed."
 	rm "$1".enc
 	exit 4
 fi
