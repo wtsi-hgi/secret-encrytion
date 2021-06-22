@@ -15,9 +15,9 @@ then
 	exit 3
 fi
 echo "Please enter the passphrase"
-read passphrase
+read -s PASSPHRASE
 # opensll will ask the user for a password by default but i wanted the the question to be different.
-openssl aes-256-cbc -k passphrase -a -salt -in "$1" -out "$1".enc
+openssl aes-256-cbc -k $PASSPHRASE -a -salt -in "$1" -out "$1".enc
 if [ $? -ne 0 ]
 then
 	echo "encryption failed."
