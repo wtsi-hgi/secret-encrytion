@@ -1,0 +1,4 @@
+#! /bin/bash
+TARBALL="~mecury/secrets.tar.gz"
+tar zcvf $TARBALL /hgi/secrets
+chmod 0600 $TARBALL
