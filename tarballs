@@ -1,11 +1,9 @@
 TARBALL="~mecury/secrets.tar.gz"
 TEMP_TAR="$(mktemp --suffix .tar.gz)"
-tar zcvf $TEMP_DIR /hgi/secrets
-if [ $? -ne 0 ]
-then
-	echo "Tarball failed"
+tar zcvf $TEMP_DIR /hgi/secrets || {
+	>&2 echo "Tarball failed"
 	exit 1
-fi
+}
 mv $TEMP_DIR $TARBALL
 chmod 0600 $TARBALL
 exit 0
