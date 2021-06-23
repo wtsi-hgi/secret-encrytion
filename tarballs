@@ -1,4 +1,12 @@
-#! /bin/bash
+#!/usr/bin/env bash
 TARBALL="~mecury/secrets.tar.gz"
-tar zcvf $TARBALL /hgi/secrets
+TEMP_DIR='mktemp'
+tar zcvf $TEMP_DIR /hgi/secrets
+if [ $? -ne 0 ]
+then
+	echo "Tarball failed"
+	exit 1
+fi
+mv $TEMP_DIR $TARBALL
 chmod 0600 $TARBALL
+exit 0
