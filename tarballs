@@ -1,6 +1,5 @@
-#!/usr/bin/env bash
 TARBALL="~mecury/secrets.tar.gz"
-TEMP_DIR='mktemp'
+TEMP_TAR="$(mktemp --suffix .tar.gz)"
 tar zcvf $TEMP_DIR /hgi/secrets
 if [ $? -ne 0 ]
 then
