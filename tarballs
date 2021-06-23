@@ -1,9 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
 TARBALL="~mecury/secrets.tar.gz"
 TEMP_TAR="$(mktemp --suffix .tar.gz)"
-tar zcvf $TEMP_DIR /hgi/secrets || {
+tar zcvf "$TEMP_TAR" /hgi/secrets || {
 	>&2 echo "Tarball failed"
 	exit 1
 }
-mv $TEMP_DIR $TARBALL
+mv "$TEMP_TAR" $TARBALL
 chmod 0600 $TARBALL
-exit 0
