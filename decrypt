@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 if [ $# -ne 1 ]
 then 
 	>&2 echo 'enter the file name to be decrypted'
@@ -10,11 +11,10 @@ then
 	exit 2
 fi
 echo "Please enter the passphrase."
-read -s PASSPHRASE
+read -s -r PASSPHRASE
 # opensll will ask the user for a password by default but i wanted the the question to be different.
 openssl aes-256-cbc -base64 -d -pbkdf2 -in "$1" -kfile <(printf "%s" "${PASSPHRASE}") || {
 	>&2 echo "decyption failed."
 	exit 3
 }
-echo
-exit 0
+>&2 echo
